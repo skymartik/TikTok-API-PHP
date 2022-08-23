@@ -428,10 +428,11 @@ if (!\class_exists('\Sovit\TikTok\Api')) {
             $json_string = $this->parse_json($result);
             if (!empty($json_string)) {
                 $jsonData = json_decode($json_string);
-                if (isset($jsonData->UserModule, $jsonData->UserPage)) {
+                if (isset($jsonData->UserModule, $jsonData->UserPage, $jsonData->ItemModule)) {
                     $result = (object) [
                         'user' => $jsonData->UserModule->users->{$jsonData->UserPage->uniqueId},
-                        'stats' => $jsonData->UserModule->stats->{$jsonData->UserPage->uniqueId}
+                        'stats' => $jsonData->UserModule->stats->{$jsonData->UserPage->uniqueId},
+                        'videos' => $jsonData->ItemModule
                     ];
                     if ($this->cacheEnabled) {
                         $this->cacheEngine->set($cacheKey, $result, $this->_config['cache-timeout']);
